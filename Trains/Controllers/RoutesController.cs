@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Trains.Models;
 
@@ -27,8 +29,13 @@ namespace Trains.Controllers
       }
       else
       {
-        //try algorithm
-        return NotFound();
+        //try algorithm        
+        Station originStation = await _db.Stations
+          .Include(station => station.OriginTracks)
+          .ThenInclude(track => track.Destination)
+          .FirstOrDefaultAsync(station => station.StationId == origin);
+        Station destinationStation = await _db.Stations.FirstOrDefaultAsync(station => station.StationId == destination);
+        return JsonSerializer.Serialize(Route.FindRoutes(originStation, destinationStation));
       }
     }
   }
