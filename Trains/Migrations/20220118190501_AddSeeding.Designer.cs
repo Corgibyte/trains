@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Trains.Models;
 
 namespace Trains.Migrations
 {
     [DbContext(typeof(TrainsContext))]
-    partial class TrainsContextModelSnapshot : ModelSnapshot
+    [Migration("20220118190501_AddSeeding")]
+    partial class AddSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
