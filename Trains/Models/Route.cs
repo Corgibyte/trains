@@ -13,7 +13,7 @@ namespace Trains.Models
     {
       Stations = stations;
       TotalTravelTime = new();
-      for (int i = 0; i < Stations.Count - 2; i++)
+      for (int i = 0; i < Stations.Count - 1; i++)
       {
         TotalTravelTime += tracks.FirstOrDefault(track => track.OriginId == stations[i].StationId && track.DestinationId == stations[i + 1].StationId).TravelTime;
       }

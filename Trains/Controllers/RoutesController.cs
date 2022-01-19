@@ -27,7 +27,7 @@ namespace Trains.Controllers
       List<Track> tracks = _db.Tracks.ToList();
       RouteFinder routes = new RouteFinder(origin, destination, stations, tracks);
       IQueryable<Route> allRoutes = routes.ToRoutes().AsQueryable();
-      allRoutes.OrderBy(route => route.TotalTravelTime);
+      allRoutes = allRoutes.OrderBy(route => route.TotalTravelTime);
       return new JsonResult(allRoutes.ToList());
     }
   }
