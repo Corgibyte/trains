@@ -23,6 +23,16 @@ namespace Trains.Controllers
     [HttpGet]
     public ActionResult Get(int origin, int destination, string sortMethod)
     {
+      if (origin == 0 || destination == 0)
+      {
+        return BadRequest();
+      }
+
+      if (_db.Stations.Any(station => station.StationId == origin) == false || _db.Stations.Any(station => station.StationId == destination) == false)
+      {
+        return NotFound();
+      }
+
       List<Station> stations = _db.Stations.ToList();
       List<Track> tracks = _db.Tracks.ToList();
       RouteFinder routes = new RouteFinder(origin, destination, stations, tracks);

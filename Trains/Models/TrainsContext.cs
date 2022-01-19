@@ -8,9 +8,7 @@ namespace Trains.Models
     public DbSet<Station> Stations { get; set; }
     public DbSet<Track> Tracks { get; set; }
 
-    public TrainsContext(DbContextOptions<TrainsContext> options) : base(options)
-    {
-    }
+    public TrainsContext(DbContextOptions<TrainsContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
