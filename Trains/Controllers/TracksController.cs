@@ -40,5 +40,67 @@ namespace Trains.Controllers
         .ToListAsync();
       return new JsonResult(tracks);
     }
+
+    [HttpPost]
+    public async Task<ActionResult<Track>> Post(Track track)
+    {
+      //TODO: check we aren't adding redundant connection
+      _db.Tracks.Add(track);
+      await _db.SaveChangesAsync();
+
+      return CreatedAtAction(nameof(GetTrack), new { id = track.TrackId }, track);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Track>> GetTrack(int id)
+    {
+      Track track = await _db.Tracks.Include(track => track.Origin).Include(track => track.Destination).FirstOrDefaultAsync(track => track.TrackId == id);
+
+      if (track == null)
+      {
+        return NotFound();
+      }
+      return track;
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(int id, Track track)
+    {
+      if (id != track.TrackId)
+      {
+        return BadRequest();
+      }
+      _db.Entry(track).State = EntityState.Modified;
+
+      try
+      {
+        await _db.SaveChangesAsync();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        if (!_db.Tracks.Any(track => track.TrackId == id))
+        {
+          return NotFound();
+        }
+        else
+        {
+          throw;
+        }
+      }
+      return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTrack(int id)
+    {
+      Track track = await _db.Tracks.FindAsync(id);
+      if (track == null)
+      {
+        return NotFound();
+      }
+      _db.Tracks.Remove(track);
+      await _db.SaveChangesAsync();
+      return NoContent();
+    }
   }
 }

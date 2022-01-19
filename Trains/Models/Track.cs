@@ -7,15 +7,15 @@ namespace Trains.Models
   {
     public int TrackId { get; set; }
 
-    [JsonIgnore]
+    // [JsonIgnore]
     public int OriginId { get; set; }
 
-    [JsonIgnore]
+    // [JsonIgnore]
     public int DestinationId { get; set; }
 
     public virtual Station Origin { get; set; }
     public virtual Station Destination { get; set; }
-    public TimeSpan TravelTime { get; set; }
+    public int TravelTime { get; set; }
     public double Fare { get; set; }
   }
 }
