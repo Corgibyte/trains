@@ -21,13 +21,26 @@ namespace Trains.Controllers
 
     //GET api/routes?origin=x&destination=y
     [HttpGet]
-    public ActionResult Get(int origin, int destination)
+    public ActionResult Get(int origin, int destination, string sortMethod)
     {
       List<Station> stations = _db.Stations.ToList();
       List<Track> tracks = _db.Tracks.ToList();
       RouteFinder routes = new RouteFinder(origin, destination, stations, tracks);
       IQueryable<Route> allRoutes = routes.ToRoutes().AsQueryable();
-      allRoutes = allRoutes.OrderBy(route => route.TotalTravelTime);
+
+      switch (sortMethod)
+      {
+        case null:
+          allRoutes = allRoutes.OrderBy(route => route.TotalTravelTime);
+          break;
+        case "time":
+          allRoutes = allRoutes.OrderBy(route => route.TotalTravelTime);
+          break;
+        case "fare":
+          allRoutes = allRoutes.OrderBy(route => route.TotalFare);
+          break;
+      }
+
       return new JsonResult(allRoutes.ToList());
     }
   }

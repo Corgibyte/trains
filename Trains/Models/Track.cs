@@ -10,5 +10,6 @@ namespace Trains.Models
     public virtual Station Origin { get; set; }
     public virtual Station Destination { get; set; }
     public TimeSpan TravelTime { get; set; }
+    public double Fare { get; set; }
   }
 }

@@ -8,6 +8,7 @@ namespace Trains.Models
   {
     public List<Station> Stations { get; set; }
     public TimeSpan TotalTravelTime { get; set; }
+    public double TotalFare { get; set; }
 
     public Route(List<Station> stations, IQueryable<Track> tracks)
     {
@@ -15,9 +16,10 @@ namespace Trains.Models
       TotalTravelTime = new();
       for (int i = 0; i < Stations.Count - 1; i++)
       {
-        TotalTravelTime += tracks.FirstOrDefault(track => track.OriginId == stations[i].StationId && track.DestinationId == stations[i + 1].StationId).TravelTime;
+        Track track = tracks.FirstOrDefault(track => track.OriginId == stations[i].StationId && track.DestinationId == stations[i + 1].StationId);
+        TotalTravelTime += track.TravelTime;
+        TotalFare += track.Fare;
       }
     }
   }
 }
-

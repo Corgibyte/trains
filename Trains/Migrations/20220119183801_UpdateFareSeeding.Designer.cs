@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Trains.Models;
 
 namespace Trains.Migrations
 {
     [DbContext(typeof(TrainsContext))]
-    partial class TrainsContextModelSnapshot : ModelSnapshot
+    [Migration("20220119183801_UpdateFareSeeding")]
+    partial class UpdateFareSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,7 +93,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 1,
                             DestinationId = 2,
-                            Fare = 8.5,
+                            Fare = 10.5,
                             OriginId = 1,
                             TravelTime = new TimeSpan(0, 3, 0, 0, 0)
                         },
@@ -99,7 +101,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 2,
                             DestinationId = 1,
-                            Fare = 8.5,
+                            Fare = 10.5,
                             OriginId = 2,
                             TravelTime = new TimeSpan(0, 3, 0, 0, 0)
                         },
@@ -107,7 +109,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 3,
                             DestinationId = 4,
-                            Fare = 15.5,
+                            Fare = 10.5,
                             OriginId = 1,
                             TravelTime = new TimeSpan(0, 1, 0, 0, 0)
                         },
@@ -115,7 +117,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 4,
                             DestinationId = 1,
-                            Fare = 15.5,
+                            Fare = 10.5,
                             OriginId = 4,
                             TravelTime = new TimeSpan(0, 1, 0, 0, 0)
                         },
@@ -123,7 +125,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 5,
                             DestinationId = 4,
-                            Fare = 13.5,
+                            Fare = 10.5,
                             OriginId = 2,
                             TravelTime = new TimeSpan(0, 4, 0, 0, 0)
                         },
@@ -131,7 +133,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 6,
                             DestinationId = 2,
-                            Fare = 13.5,
+                            Fare = 10.5,
                             OriginId = 4,
                             TravelTime = new TimeSpan(0, 4, 0, 0, 0)
                         },
@@ -139,7 +141,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 7,
                             DestinationId = 3,
-                            Fare = 8.5,
+                            Fare = 10.5,
                             OriginId = 2,
                             TravelTime = new TimeSpan(0, 6, 0, 0, 0)
                         },
@@ -147,7 +149,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 8,
                             DestinationId = 2,
-                            Fare = 8.5,
+                            Fare = 10.5,
                             OriginId = 3,
                             TravelTime = new TimeSpan(0, 6, 0, 0, 0)
                         },
@@ -155,7 +157,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 9,
                             DestinationId = 5,
-                            Fare = 17.5,
+                            Fare = 10.5,
                             OriginId = 2,
                             TravelTime = new TimeSpan(0, 4, 0, 0, 0)
                         },
@@ -163,7 +165,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 10,
                             DestinationId = 2,
-                            Fare = 17.5,
+                            Fare = 10.5,
                             OriginId = 5,
                             TravelTime = new TimeSpan(0, 4, 0, 0, 0)
                         },
@@ -171,7 +173,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 11,
                             DestinationId = 5,
-                            Fare = 15.5,
+                            Fare = 10.5,
                             OriginId = 3,
                             TravelTime = new TimeSpan(0, 4, 0, 0, 0)
                         },
@@ -179,7 +181,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 12,
                             DestinationId = 3,
-                            Fare = 15.5,
+                            Fare = 10.5,
                             OriginId = 5,
                             TravelTime = new TimeSpan(0, 4, 0, 0, 0)
                         },
@@ -187,7 +189,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 13,
                             DestinationId = 4,
-                            Fare = 20.5,
+                            Fare = 10.5,
                             OriginId = 5,
                             TravelTime = new TimeSpan(0, 6, 0, 0, 0)
                         },
@@ -195,7 +197,7 @@ namespace Trains.Migrations
                         {
                             TrackId = 14,
                             DestinationId = 5,
-                            Fare = 20.5,
+                            Fare = 10.5,
                             OriginId = 4,
                             TravelTime = new TimeSpan(0, 6, 0, 0, 0)
                         });
