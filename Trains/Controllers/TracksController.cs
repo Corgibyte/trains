@@ -44,11 +44,16 @@ namespace Trains.Controllers
     [HttpPost]
     public async Task<ActionResult<Track>> Post(Track track)
     {
-      //TODO: check we aren't adding redundant connection
-      _db.Tracks.Add(track);
-      await _db.SaveChangesAsync();
-
-      return CreatedAtAction(nameof(GetTrack), new { id = track.TrackId }, track);
+      if (!_db.Tracks.Any(t => t.DestinationId == track.DestinationId && t.OriginId == track.OriginId))
+      {
+        _db.Tracks.Add(track);
+        await _db.SaveChangesAsync();
+        return CreatedAtAction(nameof(GetTrack), new { id = track.TrackId }, track);
+      }
+      else
+      {
+        return BadRequest(new { Message = "Track already exists between that origin and destination" });
+      }
     }
 
     [HttpGet("{id}")]
@@ -68,7 +73,7 @@ namespace Trains.Controllers
     {
       if (id != track.TrackId)
       {
-        return BadRequest();
+        return BadRequest(new { Message = "TrackId must match id in endpoint URL" });
       }
       _db.Entry(track).State = EntityState.Modified;
 

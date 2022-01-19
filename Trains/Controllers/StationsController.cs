@@ -26,13 +26,25 @@ namespace Trains.Controllers
       return new JsonResult(stations);
     }
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Station>> GetStation(int id)
+    {
+      Station Station = await _db.Stations.FirstOrDefaultAsync(Station => Station.StationId == id);
+
+      if (Station == null)
+      {
+        return NotFound();
+      }
+      return Station;
+    }
+
     [HttpPost]
     public async Task<ActionResult<Station>> Post(Station station)
     {
       _db.Stations.Add(station);
       await _db.SaveChangesAsync();
 
-      return CreatedAtAction("Post", new { id = station.StationId }, station);
+      return CreatedAtAction(nameof(GetStation), new { id = station.StationId }, station);
     }
 
     [HttpPut("{id}")]
@@ -40,7 +52,7 @@ namespace Trains.Controllers
     {
       if (id != station.StationId)
       {
-        return BadRequest();
+        return BadRequest(new { Message = "StationId must match id in endpoint URL" });
       }
 
       _db.Entry(station).State = EntityState.Modified;

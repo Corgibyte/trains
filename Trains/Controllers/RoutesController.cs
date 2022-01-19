@@ -22,12 +22,12 @@ namespace Trains.Controllers
     {
       if (origin == 0 || destination == 0)
       {
-        return BadRequest();
+        return BadRequest(new { Message = "Request must include origin and destination" });
       }
 
       if (_db.Stations.Any(station => station.StationId == origin) == false || _db.Stations.Any(station => station.StationId == destination) == false)
       {
-        return NotFound();
+        return NotFound(new { Message = "origin or destination station does not exist" });
       }
 
       List<Station> stations = _db.Stations.ToList();
