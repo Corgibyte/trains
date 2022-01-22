@@ -1,4 +1,4 @@
-Train API Copyright 2022 Hannah Young, Aaron Minnick, Jacob Wilson, and Christina Welch
+Train API Copyright 2022 Aaron Minnick, Jacob Wilson, Christina Welch, and Hannah Young
 
 **HIPPOCRATIC LICENSE**
 
