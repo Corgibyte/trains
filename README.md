@@ -2,7 +2,7 @@
 
 By Aaron Minnick, Jacob Wilson, Christina Welch, and Hannah Young
 
-This app is designed to model a train transportation system. There are stations that are connected via tracks and the ability to find routes along those stations and tracks. 
+This web API is designed to model a train transportation system with management and routefinding endpoints. There are stations that are connected via tracks and the ability to find routes along those stations and tracks. 
 
 ### Technologies Used
 
