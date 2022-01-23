@@ -135,4 +135,4 @@ API endpoints can be accessed using a client such as [Postman](https://www.postm
 
 ### License
 
-[Hippocratic License 2.1](https://github.com/Corgibyte/trains/blob/main/LICENSE.md), Copyright 2022 Aaron Minnick, Jacob Wilson, Christina Welch, and Hannah Young.
+[Hippocratic License 3.0](https://github.com/Corgibyte/trains/blob/main/LICENSE.md), Copyright 2022 Aaron Minnick, Jacob Wilson, Christina Welch, and Hannah Young.
