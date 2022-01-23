@@ -9,9 +9,8 @@ public class RouteFinder
   private IQueryable<Station> _stations;
   private List<Track> _tracks;
   private Dictionary<int, List<int>> _tracksAsAdj;
-  private List<List<int>> _routes = new List<List<int>>();
 
-  public RouteFinder(int origin, int destination, List<Station> stations, List<Track> tracks)
+  public RouteFinder(List<Station> stations, List<Track> tracks)
   {
     _stations = stations.AsQueryable();
     _tracks = tracks;
@@ -26,8 +25,6 @@ public class RouteFinder
     {
       this.AddEdge(track.OriginId, track.DestinationId);
     }
-
-    this.DFS(origin, destination);
   }
 
   private void AddEdge(int origin, int destination)
@@ -35,21 +32,21 @@ public class RouteFinder
     _tracksAsAdj[origin].Add(destination);
   }
 
-  public void DFS(int origin, int destination)
+  private List<List<int>> DFS(int origin, int destination)
   {
     List<int> route = new List<int>();
 
-    Recurse(origin, destination, route);
+    return Recurse(new List<List<int>>(), origin, destination, route);
   }
 
-  private void Recurse(int current, int destination, List<int> route)
+  private List<List<int>> Recurse(List<List<int>> routes, int current, int destination, List<int> route)
   {
     route.Add(current);
 
     if (current == destination)
     {
-      _routes.Add(route);
-      return;
+      routes.Add(route);
+      return routes;
     }
 
     List<int> adjacent = _tracksAsAdj[current];
@@ -57,28 +54,22 @@ public class RouteFinder
     {
       if (!route.Contains(n))
       {
-        Recurse(n, destination, new List<int>(route));
+        routes = Recurse(routes, n, destination, new List<int>(route));
       }
     }
+    return routes;
   }
 
-  public void TestThisBS()
+  public List<Route> GetAllRoutes(int origin, int destination)
   {
-    foreach (List<int> route in _routes)
-    {
-      Console.WriteLine("Here is a route: ");
-      foreach (int station in route)
-      {
-        Console.Write("station #{0}, ", station);
-      }
-    }
+    return ToRoutes(DFS(origin, destination));
   }
 
-  public List<Route> ToRoutes()
+  private List<Route> ToRoutes(List<List<int>> routes)
   {
     //Convert list of list ints to list of routes
     List<Route> routeList = new List<Route>();
-    foreach (List<int> intList in _routes)
+    foreach (List<int> intList in routes)
     {
       List<Station> stationList = new List<Station>();
       foreach (int stationId in intList)
@@ -88,5 +79,81 @@ public class RouteFinder
       routeList.Add(new Route(stationList, _tracks.AsQueryable()));
     }
     return routeList;
+  }
+
+  //! -----------------------
+  public List<Route> GetFastestRoutes(int origin)
+  {
+    Dictionary<int, int> distances = new Dictionary<int, int>();
+    Dictionary<int, int> previous = new Dictionary<int, int>();
+    distances.Add(origin, 0);
+    Dictionary<int, int> queue = new Dictionary<int, int>();
+    foreach (Station station in _stations)
+    {
+      if (station.StationId != origin)
+      {
+        distances.Add(station.StationId, int.MaxValue - 1);
+        previous.Add(station.StationId, 0);
+      }
+      queue.Add(station.StationId, distances[station.StationId]);
+    }
+    while (queue.Count > 0)
+    {
+      int current = PriorityRemove(queue);
+      foreach (int neighbor in _tracksAsAdj[current])
+      {
+        if (queue.ContainsKey(neighbor))
+        {
+          int neighborDistance = _tracks.FirstOrDefault(track => track.OriginId == current && track.DestinationId == neighbor).TravelTime;
+          int altDistance = distances[current] + neighborDistance;
+          if (altDistance < distances[neighbor])
+          {
+            distances[neighbor] = altDistance;
+            previous[neighbor] = current;
+          }
+        }
+      }
+    }
+    return PreviousToRoutes(previous, origin);
+  }
+
+  private int PriorityRemove(Dictionary<int, int> queue)
+  {
+    int minId = 0;
+    int minValue = int.MaxValue;
+    foreach (KeyValuePair<int, int> pair in queue)
+    {
+      if (pair.Value < minValue)
+      {
+        minId = pair.Key;
+        minValue = pair.Value;
+      }
+    }
+    queue.Remove(minId);
+    return minId;
+  }
+
+  private List<Route> PreviousToRoutes(Dictionary<int, int> previous, int origin)
+  {
+    List<Route> routes = new List<Route>();
+    foreach (KeyValuePair<int, int> kvp in previous)
+    {
+      Route route = new Route(GetStationsRecursive(new Stack<Station>(), previous, origin, kvp.Key), _tracks.AsQueryable());
+      routes.Add(route);
+    }
+    return routes;
+  }
+
+  private Stack<Station> GetStationsRecursive(Stack<Station> stations, Dictionary<int, int> previous, int origin, int currentStation)
+  {
+    stations.Push(_stations.FirstOrDefault(station => station.StationId == currentStation));
+    if (currentStation == origin)
+    {
+      return stations;
+    }
+    else
+    {
+      return GetStationsRecursive(stations, previous, origin, previous[currentStation]);
+    }
   }
 }

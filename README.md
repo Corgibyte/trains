@@ -54,7 +54,8 @@ API endpoints can be accessed using a client such as [Postman](https://www.postm
 
 |Usage | METHOD       | URL       | Params |
 | :--------| :------------| :---------| :------|
-|Get all routes from origin to destination | GET    | `http://localhost:5000/api/tracks` | origin :int, destination :int, sortMethod<sup>†</sup>: `time` or `fare` |
+|Get all routes from origin to destination | GET    | `http://localhost:5000/api/Routes/AllRoutesBetween` | origin :int, destination :int, sortMethod<sup>†</sup>: `time` or `fare` |
+|Get fastest route to all destinations from origin | GET    | `http://localhost:5000/api/Routes/AllDestinationsFrom` | origin :int |
 |Get all Stations | GET    | `http://localhost:5000/api/stations` | |
 |Get specific Station | GET    | `http://localhost:5000/stations/{id}` | |
 |Create Station | POST    | `http://localhost:5000/stations/` | Station :schema<sup>*</sup> |
@@ -67,8 +68,8 @@ API endpoints can be accessed using a client such as [Postman](https://www.postm
 |Delete Track | DELETE    | `http://localhost:5000/tracks/{id}` | |
 
 
-*See below for example schemas for Stations and Tracks
-†Optional filtering parameter
+<sup>__*__</sup>See below for example schemas for Stations and Tracks
+<sup>__†__</sup>Optional filtering parameter
 
 ### Schemas
 

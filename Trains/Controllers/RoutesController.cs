@@ -17,8 +17,8 @@ namespace Trains.Controllers
     }
 
     //GET api/routes?origin=x&destination=y
-    [HttpGet]
-    public ActionResult Get(int origin, int destination, string sortMethod)
+    [HttpGet("AllRoutesBetween")]
+    public ActionResult AllRoutesBetween(int origin, int destination, string sortMethod)
     {
       if (origin == 0 || destination == 0)
       {
@@ -32,8 +32,8 @@ namespace Trains.Controllers
 
       List<Station> stations = _db.Stations.ToList();
       List<Track> tracks = _db.Tracks.ToList();
-      RouteFinder routes = new RouteFinder(origin, destination, stations, tracks);
-      IQueryable<Route> allRoutes = routes.ToRoutes().AsQueryable();
+      RouteFinder routeFinder = new RouteFinder(stations, tracks);
+      IQueryable<Route> allRoutes = routeFinder.GetAllRoutes(origin, destination).AsQueryable();
 
       switch (sortMethod)
       {
@@ -47,8 +47,23 @@ namespace Trains.Controllers
           allRoutes = allRoutes.OrderBy(route => route.TotalFare);
           break;
       }
-
       return new JsonResult(allRoutes.ToList());
+    }
+
+    //GET api/routes/
+    [HttpGet("AllDestinationsFrom")]
+    public ActionResult AllDestinationsFrom(int origin)
+    {
+      Station originStation = _db.Stations.FirstOrDefault(station => station.StationId == origin);
+      if (originStation == null)
+      {
+        return NotFound(new { Message = "Origin station does not exist" });
+      }
+      List<Station> stations = _db.Stations.ToList();
+      List<Track> tracks = _db.Tracks.ToList();
+      RouteFinder routeFinder = new RouteFinder(stations, tracks);
+      List<Route> allRoutes = routeFinder.GetFastestRoutes(origin);
+      return new JsonResult(allRoutes.AsQueryable().OrderBy(route => route.TotalTravelTime));
     }
   }
 }
