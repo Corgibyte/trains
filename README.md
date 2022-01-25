@@ -10,7 +10,7 @@ This web API is designed to model a train transportation system with management 
 - .NET
 - MySQL
 - Entity Framework
-- Swagger
+- Swagger / OpenAPI
 
 ### Description
 
