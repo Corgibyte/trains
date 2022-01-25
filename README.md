@@ -33,7 +33,6 @@ This is a web API that showcases our ability to develop an ASP.NET Core API with
 3. Navigate into the project directory nested inside the .Solution directory: `cd Trains.Solution/Trains`
 4. Create an appsettings.json file: `touch appsettings.json`
 5. Edit the new appsettings.json file and add the following, making sure to replace the indicated sections with your MySQL user ID and password:
-
 ```
 {
   "ConnectionStrings": {
